@@ -40,7 +40,7 @@ function doMail(address){
     let mailOptions = {
         from: '"HYCON" <no-reply@hycon.io>', // sender address
         to: address, // list of receivers
-        subject: 'Presale Deadline Update', // Subject line
+        subject: 'KYC Verification Completed', // Subject line
         html: confirmMail // html body
     };
     
