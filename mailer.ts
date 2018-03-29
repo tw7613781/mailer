@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
 app.post('/mailer', function(req, res){
-    let name = req.body.name
-    let email = req.body.email
+    let name = req.body.name.trim()
+    let email = req.body.email.trim()
     if(email){
         console.log(name,': your email has been sent to: ',email)
-        doMail(email)
+        setTimeout(() => doMail(email), 200)
     }
     else{
         console.log('fail to get email address')
@@ -40,7 +40,7 @@ function doMail(address){
     let mailOptions = {
         from: '"HYCON" <no-reply@hycon.io>', // sender address
         to: address, // list of receivers
-        subject: 'KYC Verification Completed', // Subject line
+        subject: 'KYC Verification Completed (KYC 검증 완료)', // Subject line
         html: confirmMail // html body
     };
     

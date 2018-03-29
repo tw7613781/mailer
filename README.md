@@ -17,9 +17,6 @@ $.ajax(
     data:{
             name: "Max Tang",
             email: "maxtang@glosfer.com" 
-        },
-    success: function(msg) {
-            alert("sent");
         }
 });
 
