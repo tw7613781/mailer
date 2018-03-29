@@ -12,7 +12,7 @@ keypair
 jQuery AJAX EXAMPLE
 $.ajax(
 {
-    url:'http://localhost:3000/mailer',
+    url:'http://host_static_ip:3000/mailer',
     type:'POST',
     data:{
             name: "Max Tang",
