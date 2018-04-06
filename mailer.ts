@@ -19,7 +19,7 @@ app.post('/mailer', function(req, res){
     let email = req.body.email.trim()
     if(email){
         logger("Receive email addr: "+email+" form "+name)
-        setTimeout(() => doMail(email), 200)
+        setTimeout(() => doMail(email), 5000)
     }
     else{
         logger('fail to get email address')
