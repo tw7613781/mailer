@@ -14,13 +14,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 let queue = []
+let index = 1
 
 app.post('/mailer', function(req, res){
     let name = req.body.name.trim()
     let email = req.body.email.trim()
     if(email){
-        logger("Receive email addr: "+email+" from "+name)
-        queue.push(email)
+        logger(index.toString() + " :Receive email addr: "+email+" from "+name)
+        queue.push(index.toString() + ":" +email)
+        index++
     }
     else{
         logger('fail to get email address')
@@ -29,18 +31,23 @@ app.post('/mailer', function(req, res){
 })
 
 setInterval(() => {
-    let email = queue.splice(0,1)
-    if(email.length > 0) {
-        doMail(email[0])
-        //logger('do mailing')
+
+    if(queue.length > 0)
+    {
+        let tmp = queue.splice(0,1)
+        let tmp1 = tmp[0].split(':')
+        let index = tmp1[0]
+        let email = tmp1[1]
+        doMail(email, index)
     }
-}, 200)
+
+}, 1000)
 
 app.listen(3000, function(){
     logger('server is listening on localhost:3000')
 })
 
-function doMail(address){
+function doMail(address, index){
     let transporter = nodemailer.createTransport({
         host: mailConfig.host,
         port: 587,
@@ -62,11 +69,11 @@ function doMail(address){
         if (error) {
             return logger(error);
         }  
-        logger(address + ' sent: ' + info.messageId);
+        logger(index + ': ' + address + ' sent: ' + info.messageId);
     });
 }
 
 function logger(logs){
     let currentDate = new Date()
-    log_file.write(currentDate.toLocaleString() + ": "+ logs + "\n")
+    log_file.write(currentDate.toLocaleString() + " "+ logs + "\n")
 }
