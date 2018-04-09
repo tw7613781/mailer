@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/ts-node mailer.ts"
+    "start": "./node_modules/.bin/ts-node cluster.ts"
   },
   "keywords": [],
   "author": "",

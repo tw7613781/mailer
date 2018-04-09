@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 let queue = []
-let index = 1
+let index = process.pid
 
 app.post('/mailer', function(req, res){
     let name = req.body.name.trim()
@@ -22,7 +22,6 @@ app.post('/mailer', function(req, res){
     if(email){
         logger(index.toString() + " :Receive email addr: "+email+" from "+name)
         queue.push(index.toString() + ":" +email)
-        index++
     }
     else{
         logger('fail to get email address')
@@ -38,10 +37,11 @@ setInterval(() => {
         let tmp1 = tmp[0].split(':')
         let index = tmp1[0]
         let email = tmp1[1]
-        doMail(email, index)
+        //doMail(email, index)
+        logger(index+ ": "+email)
     }
 
-}, 1000)
+}, 4000)
 
 app.listen(3000, function(){
     logger('server is listening on localhost:3000')
@@ -75,5 +75,5 @@ function doMail(address, index){
 
 function logger(logs){
     let currentDate = new Date()
-    log_file.write(currentDate.toLocaleString() + " "+ logs + "\n")
+    log_file.write(currentDate.toLocaleString() + " process ID:"+ logs + "\n")
 }
