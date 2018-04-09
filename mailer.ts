@@ -14,15 +14,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 let queue = []
-let count = 0
 
 app.post('/mailer', function(req, res){
     let name = req.body.name.trim()
     let email = req.body.email.trim()
     if(email){
-        logger(count.toString()+ " : Receive email addr: "+email+" from "+name)
+        logger("Receive email addr: "+email+" from "+name)
         queue.push(email)
-        count++
     }
     else{
         logger('fail to get email address')
@@ -33,10 +31,10 @@ app.post('/mailer', function(req, res){
 setInterval(() => {
     let email = queue.splice(0,1)
     if(email.length > 0) {
-        //doMail(email[0])
-        logger('do mailing')
+        doMail(email[0])
+        //logger('do mailing')
     }
-}, 1000)
+}, 200)
 
 app.listen(3000, function(){
     logger('server is listening on localhost:3000')
