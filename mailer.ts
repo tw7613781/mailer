@@ -1,26 +1,31 @@
 import {mailConfig} from './mailConfig'
 import {confirmMail} from './email'
-import { isUndefined } from 'util';
 const express = require('express')
 const nodemailer = require('nodemailer')
 const bodyParser = require('body-parser')
 
+const fs = require('fs')
+const logPath = __dirname+'/mailer.log'
+const log_file = fs.createWriteStream(logPath,{flags: 'a+',autoClose: true})
+
 const app = express()
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const queue = []
+let queue = []
+let count = 0
 
 app.post('/mailer', function(req, res){
     let name = req.body.name.trim()
     let email = req.body.email.trim()
     if(email){
-        console.log(name,': your email has been sent to: ',email)
+        logger(count.toString()+ " : Receive email addr: "+email+" from "+name)
         queue.push(email)
+        count++
     }
     else{
-        console.log('fail to get email address')
+        logger('fail to get email address')
     }
     res.end()
 })
@@ -28,12 +33,13 @@ app.post('/mailer', function(req, res){
 setInterval(() => {
     let email = queue.splice(0,1)
     if(email.length > 0) {
-        doMail(email[0])
+        //doMail(email[0])
+        logger('do mailing')
     }
-}, 200)
+}, 1000)
 
 app.listen(3000, function(){
-    console.log('server is lestening on localhost:3000')
+    logger('server is listening on localhost:3000')
 })
 
 function doMail(address){
@@ -56,9 +62,13 @@ function doMail(address){
     
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error);
-        }
-       
-        console.log('Message sent: %s', info.messageId);
+            return logger(error);
+        }  
+        logger(address + ' sent: ' + info.messageId);
     });
+}
+
+function logger(logs){
+    let currentDate = new Date()
+    log_file.write(currentDate.toLocaleString() + ": "+ logs + "\n")
 }

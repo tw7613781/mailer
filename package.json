@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "./node_modules/.bin/ts-node mailer.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,5 +14,9 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "nodemailer": "^4.6.3"
+  },
+  "devDependencies": {
+    "ts-node": "^5.0.1",
+    "typescript": "^2.8.1"
   }
 }
