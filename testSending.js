@@ -9,7 +9,7 @@ while(loop--)
 
     const postData = querystring.stringify({
         'name': 'max',
-        'email': loop+'maxtang@glosfer.com'
+        'email': loop+'test@gmail.com'
       });
       
     const options = {
