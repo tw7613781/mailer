@@ -1,5 +1,7 @@
+// made the below two file by yourself
 import {mailConfig} from './mailConfig'
 import {confirmMail} from './email'
+
 const express = require('express')
 const nodemailer = require('nodemailer')
 const bodyParser = require('body-parser')
@@ -53,15 +55,15 @@ function doMail(address, index){
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: mailConfig.username, // generated ethereal user
-            pass: mailConfig.password // generated ethereal password
+            user: mailConfig.username, 
+            pass: mailConfig.password 
         }
     });
     
     let mailOptions = {
-        from: '"HYCON" <no-reply@hycon.io>', // sender address
+        from: '"xxxx" <no-reply@xxxx.xx>', // sender address
         to: address, // list of receivers
-        subject: 'KYC Verification Completed (KYC 검증 완료)', // Subject line
+        subject: 'xxxxxxxxxxxx', // Subject line
         html: confirmMail // html body
     };
     
